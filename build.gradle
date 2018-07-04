@@ -1,0 +1,47 @@
+buildscript {
+	ext {
+		springBootVersion = '2.0.3.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'jacoco'
+
+group = 'ceiba'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('joda-time:joda-time:2.10')
+	compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.+'
+	
+	runtime('org.springframework.boot:spring-boot-devtools')
+	//runtime('mysql:mysql-connector-java')
+	runtime('com.h2database:h2')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('org.mockito:mockito-all:1.10.19')
+}
+
+test{
+	jacoco{
+		append=false
+		destinationFile =file("build/jacoco/jacocoTest.exec")
+	}
+	reports.junitXml.destination=file("build/jacoco/test-results")
+}
